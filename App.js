@@ -7,15 +7,18 @@ import MainStackNav from './navigation/MainNav';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import {Provider} from 'react-redux';
 import store from './redux/store';
+import {ToastProvider} from 'react-native-toast-notifications';
 const App = () => {
   return (
     <Provider store={store}>
-      <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} theme={eva.light}>
-        <NavigationContainer>
-          <MainStackNav />
-        </NavigationContainer>
-      </ApplicationProvider>
+      <ToastProvider>
+        <IconRegistry icons={EvaIconsPack} />
+        <ApplicationProvider {...eva} theme={eva.light}>
+          <NavigationContainer>
+            <MainStackNav />
+          </NavigationContainer>
+        </ApplicationProvider>
+      </ToastProvider>
     </Provider>
   );
 };

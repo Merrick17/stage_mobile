@@ -39,3 +39,33 @@ export const loginUserApi = (body, navigation) => async dispatch => {
     console.log('error', error.message);
   }
 };
+export const registerUserApi = (body, toast) => async dispatch => {
+  try {
+    console.log('TOAST', toast);
+    // dispatch(registerUser());
+    let result = await postApi('users/register/', body);
+    if (result.success) {
+      console.log('Result LOGIn', result);
+      toast.show('Inscription success veuillez vous conecter', {
+        type: 'success',
+        placement: 'bottom',
+        duration: 4000,
+        offset: 30,
+        animationType: 'zoom-in',
+      });
+    } else {
+      // addToast('Erreur veuillez resssayer', {appearance: 'error'});
+      toast.show('Erreur veuillez resssayer', {
+        type: 'danger',
+        placement: 'bottom',
+        duration: 4000,
+        offset: 30,
+        animationType: 'zoom-in',
+      });
+    }
+
+    // dispatch(registerUserSuccess(result));
+  } catch (error) {
+    console.log('error', error.message);
+  }
+};

@@ -1,4 +1,11 @@
-import {StyleSheet, Text, Dimensions, FlatList, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  Dimensions,
+  FlatList,
+  View,
+  ScrollView,
+} from 'react-native';
 import React, {useEffect} from 'react';
 import {Layout} from '@ui-kitten/components';
 import NavBar from '../components/NavBar';
@@ -6,25 +13,38 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getAllPariticipationsByUser} from '../redux/actions/participation.actions';
 import ParticipationComp from '../components/ParticipationComp';
 import UserInfoComp from '../components/UserInfoComp';
+import {getAllSubscriptionsApi} from '../redux/actions/subscriptions.actions';
+import FormationSub from '../components/FormationSub';
 
 const ProfileScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const {token, userInfo} = useSelector(state => state.auth);
   const {list} = useSelector(state => state.participation);
+  const subState = useSelector(state => state.subscriptions);
   useEffect(() => {
     dispatch(getAllPariticipationsByUser(userInfo._id, token));
+    dispatch(getAllSubscriptionsApi(userInfo._id, token));
   }, []);
   return (
     <Layout style={styles.container}>
       <NavBar title="Mon Profil" navigation={navigation} />
       <UserInfoComp userInfo={userInfo} />
-      <View style={styles.header}>
-        <Text style={styles.labelStyle}>Participation (Stage/Offre)</Text>
-      </View>
-      <FlatList
-        data={list}
-        renderItem={({item}) => <ParticipationComp item={item} />}
-      />
+      <ScrollView>
+        <View style={styles.header}>
+          <Text style={styles.labelStyle}>Participation (Stage/Offre)</Text>
+        </View>
+        <FlatList
+          data={list}
+          renderItem={({item}) => <ParticipationComp item={item} />}
+        />
+        <View style={styles.header}>
+          <Text style={styles.labelStyle}>Participation (Formation)</Text>
+        </View>
+        <FlatList
+          data={subState.list}
+          renderItem={({item}) => <FormationSub item={item} />}
+        />
+      </ScrollView>
     </Layout>
   );
 };

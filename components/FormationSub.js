@@ -7,10 +7,22 @@ import {useState} from 'react';
 import {useToast} from 'react-native-toast-notifications';
 import {useDispatch, useSelector} from 'react-redux';
 import {addFormationParticipationApi} from '../redux/actions/formation.action';
-const FormationComp = ({item}) => {
+const FormationSub = ({item}) => {
   const toast = useToast();
   const dispatch = useDispatch();
   const {token, userInfo} = useSelector(state => state.auth);
+  const displayStatus = status => {
+    switch (status) {
+      case 'EN_COURS':
+        return 'En cours';
+      case 'CONFIRMED':
+        return 'Confirmer';
+      case 'REFUSED':
+        return 'Refuser';
+      default:
+        return 'En Cours';
+    }
+  };
   return (
     <>
       <Card
@@ -19,10 +31,10 @@ const FormationComp = ({item}) => {
         header={() => {
           return (
             <View style={{padding: 10}}>
-              <Text category="h6">{item && item.title}</Text>
-              <Text category="s1">
-                Ajouter par: {item && item.addedBy && item.addedBy.nom}
+              <Text category="h6">
+                {item && item.course && item.course.title}
               </Text>
+              <Text category="s1">ETAT: {displayStatus(item.confirmed)}</Text>
             </View>
           );
         }}
@@ -32,6 +44,7 @@ const FormationComp = ({item}) => {
               <Button
                 style={styles.footerControl}
                 size="small"
+                status={'danger'}
                 onPress={() => {
                   dispatch(
                     addFormationParticipationApi(
@@ -44,24 +57,24 @@ const FormationComp = ({item}) => {
                     ),
                   );
                 }}>
-                S'inscrire
+                Annuler
               </Button>
             </View>
           );
         }}>
         <View>
           <Image
-            source={{uri: `${BASE_URL}/${item.image}`}}
+            source={{uri: `${BASE_URL}/${item.course.image}`}}
             style={styles.image}
           />
-          <Text>{item && item.desc}</Text>
+          <Text>{item && item.course.desc}</Text>
         </View>
       </Card>
     </>
   );
 };
 
-export default FormationComp;
+export default FormationSub;
 
 const styles = StyleSheet.create({
   topContainer: {
@@ -79,7 +92,7 @@ const styles = StyleSheet.create({
   },
   footerControl: {
     marginHorizontal: 2,
-    width: '50%',
+    width: '100%',
   },
   btnStyle: {
     width: '100%',

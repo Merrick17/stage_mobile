@@ -2,19 +2,28 @@ import {StyleSheet, View, Dimensions, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Layout, Input, Button, Text} from '@ui-kitten/components';
 import {useForm, Controller} from 'react-hook-form';
+import {registerUserApi} from '../redux/actions/auth.actions';
+import {useDispatch} from 'react-redux';
+import {useToast} from 'react-native-toast-notifications';
 const RegisterScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+  const toast = useToast();
   const {
     control,
     handleSubmit,
     formState: {errors},
   } = useForm({
     defaultValues: {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
+      role: '',
+      phoneNumber: '',
     },
   });
   const onSubmit = data => {
-    dispatch(loginUserApi(data, navigation));
+    dispatch(registerUserApi({...data, role: 'USER'}, toast));
   };
   return (
     <Layout style={styles.container}>
@@ -32,9 +41,9 @@ const RegisterScreen = ({navigation}) => {
             onBlur={onBlur}
           />
         )}
-        name="name"
+        name="firstName"
       />
-      {errors.name && (
+      {errors.firstName && (
         <Text status="danger" style={styles.errorStyle}>
           Prénom Obligatoire!.
         </Text>
@@ -129,7 +138,7 @@ const RegisterScreen = ({navigation}) => {
         status="primary"
         onPress={handleSubmit(onSubmit)}>
         {' '}
-        Se Connecter
+        S'inscrire'
       </Button>
       <View
         style={{

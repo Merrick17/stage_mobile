@@ -45,23 +45,6 @@ const ParticipationComp = ({item}) => {
         return 'En Cours';
     }
   };
-  const handleDocument = async () => {
-    try {
-      const pickerResult = await DocumentPicker.pickSingle({
-        presentationStyle: 'fullScreen',
-        copyTo: 'cachesDirectory',
-      });
-      //setResult([pickerResult]);
-      const formData = new FormData();
-
-      formData.append('resume', pickerResult);
-      formData.append('offre', item._id);
-      formData.append('sendedBy', userInfo._id);
-      dispatch(participateAtOffer(formData, token));
-    } catch (e) {
-      handleError(e);
-    }
-  };
 
   return (
     <>

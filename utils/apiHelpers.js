@@ -4,6 +4,7 @@ const postApi = async (url, body, config = {}) => {
   try {
     let response = await axios.post(`${BASE_URL}/${url}`, body, config);
     if (response.data) {
+      console.log('Data',response.data)
       return response.data;
     }
   } catch (error) {
