@@ -46,16 +46,16 @@ const FormationSub = ({item}) => {
                 size="small"
                 status={'danger'}
                 onPress={() => {
-                  dispatch(
-                    addFormationParticipationApi(
-                      {
-                        sendedBy: userInfo._id,
-                        course: item._id,
-                      },
-                      token,
-                      toast,
-                    ),
-                  );
+                //   dispatch(
+                //     addFormationParticipationApi(
+                //       {
+                //         sendedBy: userInfo._id,
+                //         course: item._id,
+                //       },
+                //       token,
+                //       toast,
+                //     ),
+                //   );
                 }}>
                 Annuler
               </Button>

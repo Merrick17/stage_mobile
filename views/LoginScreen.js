@@ -4,7 +4,9 @@ import {Layout, Input, Button, Text} from '@ui-kitten/components';
 import {useForm, Controller} from 'react-hook-form';
 import {useDispatch} from 'react-redux';
 import {loginUserApi} from '../redux/actions/auth.actions';
+import {useToast} from 'react-native-toast-notifications';
 const LoginScreen = ({navigation}) => {
+  const toast = useToast();
   const {
     control,
     handleSubmit,
@@ -17,7 +19,7 @@ const LoginScreen = ({navigation}) => {
   });
   const dispatch = useDispatch();
   const onSubmit = data => {
-    dispatch(loginUserApi(data, navigation));
+    dispatch(loginUserApi(data, navigation, toast));
   };
   return (
     <Layout style={styles.container}>
