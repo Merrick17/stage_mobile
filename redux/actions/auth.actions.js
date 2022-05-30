@@ -13,7 +13,7 @@ const loginUserSuccess = data => {
   };
 };
 
-export const loginUserApi = (body, navigation) => async dispatch => {
+export const loginUserApi = (body, navigation, toast) => async dispatch => {
   try {
     dispatch(loginUser());
     let result = await postApi('users/login', body);
@@ -33,10 +33,16 @@ export const loginUserApi = (body, navigation) => async dispatch => {
       //     localStorage.setItem('ste', JSON.stringify(result.result.ste));
       //   }
     } else {
-      //addToast('Adresse ou mot de passe incorrect', {appearance: 'error'});
+      toast.show('Adresse ou mot de passe incorrecte', {
+        type: 'danger',
+        placement: 'bottom',
+        duration: 4000,
+        offset: 30,
+        animationType: 'zoom-in',
+      });
     }
   } catch (error) {
-    console.log('error', error.message);
+    console.error('error', error.message);
   }
 };
 export const registerUserApi = (body, toast) => async dispatch => {
